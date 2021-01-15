@@ -1,5 +1,7 @@
 package se.iths.springsession210115.security;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception {
 // Skapa två användare in-memory
         authentication
@@ -28,14 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .httpBasic()
-                .and()
+        http.httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/")
-                .hasRole("ADMIN")
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/").hasRole("ADMIN")
+                .anyRequest().authenticated();
     }
 
     @Bean
